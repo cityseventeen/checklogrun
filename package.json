@@ -1,0 +1,24 @@
+{
+    "name": "checklogrun",
+    "version": "0.0.1",
+    "description": "The library promotes the separation of responsibilities, allowing the logic, valitadion and logging to be kept in distinct modules, organizing the code into separate files and reducing the complexity of the main funciton",
+    "main": "src/main.js",
+    "scripts": {
+        "test": "mocha --exit --path_testdata=heihei"
+    },
+    "type": "module",
+    "author": "Raffaele Balsamo",
+    "license": "",
+    "devDependencies": {
+        "@types/chai": "^5.0.0",
+        "@types/mocha": "^10.0.8",
+        "@types/node": "^22.7.4",
+        "chai": "^5.1.1",
+        "mocha": "^10.7.3"
+    },
+    "dependencies": {
+        "enum": "^3.0.4",
+        "laziest-error": "github:cityseventeen/laziesterror"
+    },
+    "config": {}
+}

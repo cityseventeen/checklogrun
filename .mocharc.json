@@ -1,0 +1,6 @@
+{
+    "spec": ["src/**/*.test.js", "test/*.js"],
+    "exit": true,
+    "ui": "bdd",
+    "recursive": true
+}
