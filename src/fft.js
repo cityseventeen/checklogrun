@@ -35,8 +35,19 @@ class DFT{
         const methods_that_require_main_to_be_called_first = [
             data.functionality_list.cbi,
             data.functionality_list.cbf,
-            data.functionality_list.cbr].map(method => {return method.key});
+            data.functionality_list.cbr]
+            .map(method => {return method.key});
         return methods_that_require_main_to_be_called_first;
+    }
+    static get not_valid_input_for_methods(){
+        return [5, 0, -8, true, false, null, undefined, [], {}];
+    }
+    static get methods_that_require_function_as_valid_input(){
+        return [
+            data.functionality_list.cbi,
+            data.functionality_list.cbf,
+            data.functionality_list.cbr]
+            .map(method => {return method.key});
     }
 }
 

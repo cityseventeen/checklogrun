@@ -23,9 +23,30 @@ describe('main - error', function (){
         });
     });
     context('when main is called', function(){
+        describe('calling main', function (){
+            it('not valid input for main method throw error', function (){
+                DFT.not_valid_input_for_methods.forEach(not_valid_input => {
+                    expect(()=>{checklogrun().main(not_valid_input)}).to.throw()});
+            });
+        });
+        describe('not valid input for methods except for main', function (){
+            let returned_after_main_called;
+            let callback_as_valid_input;
+            beforeEach(function(){
+                callback_as_valid_input = sinon.spy();
+                returned_after_main_called = checklogrun().main(callback_as_valid_input);
+            });
+            afterEach(function(){
+                sinon.restore();
+            })
+            DFT.methods_that_require_function_as_valid_input.forEach(method => {
+                it(`not valid input for ${method} method throw error`, function (){
+                    DFT.not_valid_input_for_methods.forEach(not_valid_input => {
+                        expect(()=>{returned_after_main_called[method](not_valid_input)}).to.throw();
+                    });
+                });
 
-
-
-
+            });
+        });
     });
 });
