@@ -13,7 +13,7 @@ const data = {
         return list;
     },
     function_to_return_property_symbol: Symbol(),
-    value_returned_property: 'cbr'
+    value_returned_property: 'cbr' // ***** dovrebbe essere symbol
 };
 
 export default data;
