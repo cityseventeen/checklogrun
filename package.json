@@ -4,7 +4,8 @@
     "description": "The library promotes the separation of responsibilities, allowing the logic, valitadion and logging to be kept in distinct modules, organizing the code into separate files and reducing the complexity of the main funciton",
     "main": "src/main.js",
     "scripts": {
-        "test": "mocha --exit && set /p message_commit= && git add . && git commit -m %message_commit%"
+        "test": "mocha --exit && npm run git",
+        "git" : "set /p message='write commit message' && git add . && git commit -m %message%"
     },
     "type": "module",
     "author": "Raffaele Balsamo",
