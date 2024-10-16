@@ -14,8 +14,8 @@ describe('main - how is made', function (){
             });
         });
     });
-    describe(`Each method of checklogrun returns an object with each of these methods ${DFT.all_methods_that_return_objectforEach}`, function (){
-        DFT.all_methods_that_return_object.forEach(method_name => {
+    describe(`Each method of checklogrun returns an object with each of these methods ${DFT.all_methods_that_return_object_except_for_main}`, function (){
+        DFT.all_methods_that_return_object_except_for_main.forEach(method_name => {
             let value_returned_by_checklogrun_calledmain;
             before(function(){
                 value_returned_by_checklogrun_calledmain = (function preset_main(callback){
@@ -38,10 +38,19 @@ describe('main - how is made', function (){
                 .main(DFT.valid_input_for_methods_of_checklogrun);
 
         });
-        it('.getFunction() returns a function', function (){
-            expect(checklogrun_presetted_fortest
-                .getFunction()).to.be.a('function');
+        context('only .main called', function(){
+            it('.getFunction() returns a function', function (){
+                expect(checklogrun_presetted_fortest
+                    .getFunction()).to.be.a('function');
+            });  
         });
+        context('also other methods called', function(){
+            it('.getFunction() returns a function', function (){
+                expect(checklogrun_presetted_fortest
+                    .cbi(DFT.valid_input_for_methods_of_checklogrun)
+                    .getFunction()).to.be.a('function');
+            });
+
+        }); 
     });
-  
 });

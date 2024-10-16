@@ -4,7 +4,7 @@
     "description": "The library promotes the separation of responsibilities, allowing the logic, valitadion and logging to be kept in distinct modules, organizing the code into separate files and reducing the complexity of the main funciton",
     "main": "src/main.js",
     "scripts": {
-        "test": "mocha --exit && npm run git",
+        "test": "mocha --exit && npm version patch && npm run git",
         "git": "set /p message=\"write commit message\" && git add . && call git commit -m \"%message%\""
     },
     "type": "module",
