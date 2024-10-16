@@ -191,7 +191,21 @@ describe('main - usecase', function (){
         });
         describe('check on this', function (){
             describe('reference to method of checklogrun', function (){
-                
+                DFT.methods_list.forEach(method => {
+                    it(`the function with check log have not ${method} of checklogrun`, function (){
+                        let function_with_checklog = checklogrun_returned_by_main.getFunction();
+                        expect(new function_with_checklog()).to.not.have.property(method);
+                    });
+                    context(`when called cbi cbf`, function(){
+                        it(`the function with check log have not ${method} of checklogrun`, function (){
+                            let function_with_checklog = checklogrun_returned_by_main
+                                .cbi(callback.cb2)
+                                .cbf(callback.cb3)
+                                .getFunction();
+                            expect(new function_with_checklog()).to.not.have.property(method);
+                        });
+                    });
+                });
             });
             
         });
@@ -199,5 +213,3 @@ describe('main - usecase', function (){
 
     });
 });
-
-// *** test sul fatto che vengano lette le var argomenti dalle callback, e idem che venga letto da cbf il return del main, e che la funzione data da checklogrun restituisca il return del main
