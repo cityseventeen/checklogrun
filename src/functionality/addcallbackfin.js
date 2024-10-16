@@ -8,8 +8,8 @@ function addcallbackfin(function_definition){
 
     const actual_function = this[data.function_to_return_property_symbol];
     this[data.function_to_return_property_symbol] = function(...args){
-        let value_to_return = actual_function.call(null, args);
-        function_definition.apply(null, value_to_return, ...args);
+        let value_to_return = actual_function.apply(null, args);
+        function_definition.call(null, value_to_return, ...args);
 
         return value_to_return;
     };
