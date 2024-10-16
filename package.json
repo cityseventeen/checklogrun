@@ -5,7 +5,7 @@
     "main": "src/main.js",
     "scripts": {
         "test": "mocha --exit",
-        "test-commit": "npm run test && npm version patch && npm run git",
+        "test-commit": "npm run test && npm run git",
         "git": "set /p message=\"write commit message\" && git add . && call git commit -m \"%message%\""
     },
     "type": "module",
