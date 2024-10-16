@@ -97,9 +97,66 @@ describe('main - usecase', function (){
             });
         });
         describe('check on arguments', function (){
-            it('title', function (){
-                //expect(true).to.be.false;// ********
+            let returned_by_main_method;
+            const value_returned_by_main = 5;
+            let callback_main;
+            beforeEach(function(){
+                callback_main = sinon.stub().returns(value_returned_by_main);
+                returned_by_main_method = checklogrun().main(callback_main);
             });
+            afterEach(function(){
+                sinon.restore();
+            });
+            describe('arguments of main', function (){
+                it('arguments are read by main', function (){
+                    const function_with_checklog = returned_by_main_method.getFunction();
+                    function_with_checklog(1,2,3);
+                    expect(callback_main.calledOnceWithExactly(1,2,3)).to.be.true;
+                });
+                context('with cbi and cbf setted', function(){
+                    DFT.methods_that_require_function_as_valid_input.forEach((method)=>{
+                        it(`arguments are read by main with ${method} setted`, function (){
+                            const function_with_checklog = returned_by_main_method
+                                                            [method](callback.cb2)
+                                                            .getFunction();
+                            function_with_checklog(1,2,3);
+                            expect(callback_main.calledOnceWithExactly(1,2,3)).to.be.true;
+                        });
+                    });
+                    it('arguments are read by main with cbi and cbf setted', function (){
+                        const function_with_checklog = returned_by_main_method
+                                                            .cbi(callback.cb2)
+                                                            .cbf(callback.cb3)
+                                                            .getFunction();
+                        function_with_checklog(1,2,3);
+                        expect(callback_main.calledOnceWithExactly(1,2,3)).to.be.true;
+                    });
+                });
+            });
+            describe('arguments of cbi', function (){
+                it('argument of cbi are the same of main', function (){
+                    const function_with_checklog = returned_by_main_method
+                                                            .cbi(callback.cb2)
+                                                            .getFunction();
+                    function_with_checklog(1,2,3);
+                    expect(callback.cb2.calledOnceWithExactly(1,2,3)).to.be.true;
+                });
+            });
+            describe('arguments of cbf', function (){
+                it('argument of cbi are the same of main plus the returned value', function (){
+                    const function_with_checklog = returned_by_main_method
+                                                            .cbf(callback.cb2)
+                                                            .getFunction();
+                    function_with_checklog(1,2,3);
+                    expect(callback.cb2.calledOnceWithExactly(value_returned_by_main, 1,2,3)).to.be.true;
+                });
+            });
+        });
+        describe('check on this', function (){
+            describe('reference to method of checklogrun', function (){
+                
+            });
+            
         });
 
 
