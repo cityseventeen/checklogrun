@@ -40,8 +40,7 @@ class DFT{
     static get all_methods_except_for_getFunction_that_require_main_to_be_called_first(){
         const methods_that_require_main_to_be_called_first = [
             data.functionality_list.cbi,
-            data.functionality_list.cbf,
-            data.functionality_list.cbr]
+            data.functionality_list.cbf]
             .map(method => {return method.key});
         return methods_that_require_main_to_be_called_first;
     }
@@ -51,8 +50,7 @@ class DFT{
     static get methods_that_require_function_as_valid_input(){
         return [
             data.functionality_list.cbi,
-            data.functionality_list.cbf,
-            data.functionality_list.cbr]
+            data.functionality_list.cbf]
             .map(method => {return method.key});
     }
 }
