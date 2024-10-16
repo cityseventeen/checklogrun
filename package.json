@@ -1,6 +1,6 @@
 {
     "name": "checklogrun",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "The library promotes the separation of responsibilities, allowing the logic, valitadion and logging to be kept in distinct modules, organizing the code into separate files and reducing the complexity of the main funciton",
     "main": "src/main.js",
     "scripts": {
