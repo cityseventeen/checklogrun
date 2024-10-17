@@ -12,6 +12,11 @@ const data = {
         this.functionality_list.enums.forEach(enum_f => {list.push(enum_f.key)});
         return list;
     },
+    get functionality_name(){
+        const list_name = {};
+        this.functionality_list.enums.forEach(enum_f => {list_name[enum_f.key] = enum_f.key});
+        return list_name;
+    },
     function_to_return_property_symbol: Symbol(),
     value_returned_property: Symbol()
 };

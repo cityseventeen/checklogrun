@@ -90,46 +90,75 @@ describe('main - usecase', function (){
             });
         });
         describe('returned value', function (){
-            const value_returned = 'prova valore di ritorno';
-            let returned_by_main_method;
-            beforeEach(function(){
-                const function_main = ()=>{return value_returned};
-                returned_by_main_method = checklogrun().main(function_main);
-            });
-            it('return value of main is right', function (){
-                let function_with_checklog = returned_by_main_method.getFunction();
-                expect(function_with_checklog()).to.equal(value_returned);
-            });
-            context('with cbi setted', function(){
+            context(`without cbr setted`, function(){
+                const value_returned = 'prova valore di ritorno';
+                let returned_by_main_method;
+                beforeEach(function(){
+                    const function_main = ()=>{return value_returned};
+                    returned_by_main_method = checklogrun().main(function_main);
+                });
                 it('return value of main is right', function (){
-                    let function_with_checklog = returned_by_main_method
-                                                    .cbi(callback.cb1)
-                                                    .getFunction();
+                    let function_with_checklog = returned_by_main_method.getFunction();
                     expect(function_with_checklog()).to.equal(value_returned);
+                });
+                context('with cbi setted', function(){
+                    it('return value of main is right', function (){
+                        let function_with_checklog = returned_by_main_method
+                                                        .cbi(callback.cb1)
+                                                        .getFunction();
+                        expect(function_with_checklog()).to.equal(value_returned);
+                    });
+                });
+                context('with cbf setted', function(){
+                    it('return value of main is right', function (){
+                        let function_with_checklog = returned_by_main_method
+                                                        .cbf(callback.cb1)
+                                                        .getFunction();
+                        expect(function_with_checklog()).to.equal(value_returned);
+                    });
+                });
+                context('with cbi and cbf setted', function(){
+                    it('return value of main is right with cbi cbf', function (){
+                        let function_with_checklog = returned_by_main_method
+                                                        .cbi(callback.cb1)
+                                                        .cbf(callback.cb2)
+                                                        .getFunction();
+                        expect(function_with_checklog()).to.equal(value_returned);
+                    });
+                    it('return value of main is right with cbf cbi', function (){
+                        let function_with_checklog = returned_by_main_method
+                                                        .cbf(callback.cb1)
+                                                        .cbi(callback.cb2)
+                                                        .getFunction();
+                        expect(function_with_checklog()).to.equal(value_returned);
+                    });
                 });
             });
-            context('with cbf setted', function(){
-                it('return value of main is right', function (){
-                    let function_with_checklog = returned_by_main_method
-                                                    .cbf(callback.cb1)
-                                                    .getFunction();
-                    expect(function_with_checklog()).to.equal(value_returned);
+            context(`with cbr setted`, function(){
+                const value_returned = 'prova valore di ritorno';
+                const value_modified = 'valore modificato'
+                const cbr_callback = (return_value)=>{return value_modified};
+                let returned_by_main_method;
+                beforeEach(function(){
+                    const function_main = ()=>{return value_returned};
+                    returned_by_main_method = checklogrun().main(function_main);
                 });
-            });
-            context('with cbi and cbf setted', function(){
-                it('return value of main is right with cbi cbf', function (){
-                    let function_with_checklog = returned_by_main_method
-                                                    .cbi(callback.cb1)
-                                                    .cbf(callback.cb2)
-                                                    .getFunction();
-                    expect(function_with_checklog()).to.equal(value_returned);
+                it(`return value of main is in according to cbr`, function (){
+                    const function_with_checklogrun = returned_by_main_method
+                                                        .cbr(cbr_callback)
+                                                        .getFunction();
+                    expect(function_with_checklogrun()).to.equal(value_modified);
                 });
-                it('return value of main is right with cbf cbi', function (){
-                    let function_with_checklog = returned_by_main_method
-                                                    .cbf(callback.cb1)
-                                                    .cbi(callback.cb2)
-                                                    .getFunction();
-                    expect(function_with_checklog()).to.equal(value_returned);
+                context(`with cbi and cbf setted`, function(){
+                    it(`return value of main is in according to cbr`, function (){
+                        const function_with_checklogrun = returned_by_main_method
+                                                        .cbi(callback.cb2)
+                                                        .cbf(callback.cb3)
+                                                        .cbi(callback.cb4)
+                                                        .cbr(cbr_callback)
+                                                        .getFunction();
+                        expect(function_with_checklogrun()).to.equal(value_modified);
+                    });
                 });
             });
         });
@@ -179,13 +208,15 @@ describe('main - usecase', function (){
                     expect(callback.cb2.calledOnceWithExactly(1,2,3)).to.be.true;
                 });
             });
-            describe('arguments of cbf', function (){
-                it('argument of cbi are the same of main plus the returned value', function (){
-                    const function_with_checklog = returned_by_main_method
-                                                            .cbf(callback.cb2)
-                                                            .getFunction();
-                    function_with_checklog(1,2,3);
-                    expect(callback.cb2.calledOnceWithExactly(value_returned_by_main, 1,2,3)).to.be.true;
+            describe('arguments of cbf and cbr', function (){
+                [DFT.methods_name.cbf, DFT.methods_name.cbr].forEach(method => {
+                    it('argument of cbi are the same of main plus the returned value', function (){
+                        const function_with_checklog = returned_by_main_method
+                                                                [method](callback.cb2)
+                                                                .getFunction();
+                        function_with_checklog(1,2,3);
+                        expect(callback.cb2.calledOnceWithExactly(value_returned_by_main, 1,2,3)).to.be.true;
+                    });
                 });
             });
         });

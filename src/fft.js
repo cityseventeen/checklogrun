@@ -12,6 +12,11 @@ class DFT{
         assert.ok(list_name.length > 0);
         return list_name;
     }
+    static get methods_name(){
+        const list_name = {};
+        data.functionality_list.enums.forEach(enum_f => {list_name[enum_f.key] = enum_f.key});
+        return list_name;
+    }
     static get valid_input_for_checklogrun(){return undefined;}
     static get valid_input_for_methods_of_checklogrun(){return ()=>{};}
     static all_methods_except_for(...methods_to_exclude){
