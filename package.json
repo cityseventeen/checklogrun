@@ -10,7 +10,7 @@
     },
     "type": "module",
     "author": "Raffaele Balsamo",
-    "license": "SEE LICENSE IN <LICENSE>",
+    "license": "SEE LICENSE IN <LICENSE> FILE",
     "devDependencies": {
         "@types/chai": "^5.0.0",
         "@types/mocha": "^10.0.8",

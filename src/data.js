@@ -5,6 +5,7 @@ const data = {
         'main': 'savemain.js',
         'cbi' : 'addcallbackinit.js',
         'cbf': 'addcallbackfin.js',
+        'cbr': 'addcallbackreturn.js',
         'getFunction': 'getfunction.js'}, {freeze: true, ignoreCase: true, name: 'functionality_list'}),
     functionalities_name: function(){
         let list = [];
