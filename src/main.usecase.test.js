@@ -40,53 +40,49 @@ describe('main - usecase', function (){
             });
         });
         describe('callback called ordered', function (){
-            it('cba runs befor main', function (){
-                (checklogrun_returned_by_main
-                    .cba(callback.cb2)
-                    .getFunction())();    
-                expect(callback.cb2.calledImmediatelyBefore(callback.cb1)).to.be.true;
-            });
-            it('cbb runs after main', function (){
+            it('cbb runs befor main', function (){
                 (checklogrun_returned_by_main
                     .cbb(callback.cb2)
                     .getFunction())();    
+                expect(callback.cb2.calledImmediatelyBefore(callback.cb1)).to.be.true;
+            });
+            it('cba runs after main', function (){
+                (checklogrun_returned_by_main
+                    .cba(callback.cb2)
+                    .getFunction())();    
                 expect(callback.cb2.calledImmediatelyAfter(callback.cb1)).to.be.true;
             });
-            it('order: cba, main, cbb with .cba .cbb', function (){
+            it('order: cbb, main, cba with .cbb .cba', function (){
                 (checklogrun_returned_by_main
-                    .cba(callback.cb2)
-                    .cbb(callback.cb3)
+                    .cbb(callback.cb2)
+                    .cba(callback.cb3)
                     .getFunction())();    
                 expect(callback.cb2.calledImmediatelyBefore(callback.cb1)).to.be.true;
                 expect(callback.cb3.calledImmediatelyAfter(callback.cb1)).to.be.true;
             });
-            it('order: cba, main, cbb with .cbb .cba', function (){
+            it('order: cbb, main, cba with .cba .cbb', function (){
                 (checklogrun_returned_by_main
-                    .cbb(callback.cb3)
-                    .cba(callback.cb2)
+                    .cba(callback.cb3)
+                    .cbb(callback.cb2)
                     .getFunction())();    
                 expect(callback.cb2.calledImmediatelyBefore(callback.cb1)).to.be.true;
                 expect(callback.cb3.calledImmediatelyAfter(callback.cb1)).to.be.true;
             });
-            it('cba2 runs before cba1 befor main with cba2 cb3', function (){
-                it('order: cba, main, cbb with .cba .cbb', function (){
-                    (checklogrun_returned_by_main
-                        .cba(callback.cb2)
-                        .cba(callback.cb3)
-                        .getFunction())();    
-                    expect(callback.cb2.calledImmediatelyBefore(callback.cb1)).to.be.true;
-                    expect(callback.cb3.calledImmediatelyBefore(callback.cb2)).to.be.true;
-                });
+            it('cbb2 runs before cbb3 befor main with .cbb3 .cbb2', function (){
+                (checklogrun_returned_by_main
+                    .cbb(callback.cb3)
+                    .cbb(callback.cb2)
+                    .getFunction())();    
+                expect(callback.cb3.calledImmediatelyBefore(callback.cb1)).to.be.true;
+                expect(callback.cb2.calledImmediatelyBefore(callback.cb3)).to.be.true;
             });
-            it('cbb2 runs after cbb1 after main', function (){
-                it('order: cba, main, cbb with .cba .cbb', function (){
-                    (checklogrun_returned_by_main
-                        .cbb(callback.cb2)
-                        .cbb(callback.cb3)
-                        .getFunction())();    
-                    expect(callback.cb2.calledImmediatelyAfter(callback.cb1)).to.be.true;
-                    expect(callback.cb3.calledImmediatelyAfter(callback.cb2)).to.be.true;
-                });
+            it('cba2 runs after cba3 after main with .cba3 .cba2', function (){
+                (checklogrun_returned_by_main
+                    .cba(callback.cb3)
+                    .cba(callback.cb2)
+                    .getFunction())();    
+                expect(callback.cb3.calledImmediatelyAfter(callback.cb1)).to.be.true;
+                expect(callback.cb2.calledImmediatelyAfter(callback.cb3)).to.be.true;
             });
         });
         describe('returned value', function (){
@@ -199,17 +195,17 @@ describe('main - usecase', function (){
                     });
                 });
             });
-            describe('arguments of cba', function (){
+            describe('arguments of cbb', function (){
                 it('argument of cba are the same of main', function (){
                     const function_with_checklog = returned_by_main_method
-                                                            .cba(callback.cb2)
+                                                            .cbb(callback.cb2)
                                                             .getFunction();
                     function_with_checklog(1,2,3);
                     expect(callback.cb2.calledOnceWithExactly(1,2,3)).to.be.true;
                 });
             });
-            describe('arguments of cbb and cbr', function (){
-                [DFT.methods_name.cbb, DFT.methods_name.cbr].forEach(method => {
+            describe('arguments of cba and cbr', function (){
+                [DFT.methods_name.cba, DFT.methods_name.cbr].forEach(method => {
                     it('argument of cba are the same of main plus the returned value', function (){
                         const function_with_checklog = returned_by_main_method
                                                                 [method](callback.cb2)

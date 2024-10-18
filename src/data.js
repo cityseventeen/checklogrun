@@ -3,8 +3,8 @@ import Enum from 'enum'
 const data = {
     functionality_list: new Enum({
         'main': 'savemain.js',
-        'cba' : 'addcallbackinit.js',
-        'cbb': 'addcallbackfin.js',
+        'cbb' : 'addcallbackinit.js',
+        'cba': 'addcallbackfin.js',
         'cbr': 'addcallbackreturn.js',
         'getFunction': 'getfunction.js'}, {freeze: true, ignoreCase: true, name: 'functionality_list'}),
     functionalities_name: function(){
