@@ -40,49 +40,49 @@ describe('main - usecase', function (){
             });
         });
         describe('callback called ordered', function (){
-            it('cbi runs befor main', function (){
+            it('cba runs befor main', function (){
                 (checklogrun_returned_by_main
-                    .cbi(callback.cb2)
+                    .cba(callback.cb2)
                     .getFunction())();    
                 expect(callback.cb2.calledImmediatelyBefore(callback.cb1)).to.be.true;
             });
-            it('cbf runs after main', function (){
+            it('cbb runs after main', function (){
                 (checklogrun_returned_by_main
-                    .cbf(callback.cb2)
+                    .cbb(callback.cb2)
                     .getFunction())();    
                 expect(callback.cb2.calledImmediatelyAfter(callback.cb1)).to.be.true;
             });
-            it('order: cbi, main, cbf with .cbi .cbf', function (){
+            it('order: cba, main, cbb with .cba .cbb', function (){
                 (checklogrun_returned_by_main
-                    .cbi(callback.cb2)
-                    .cbf(callback.cb3)
+                    .cba(callback.cb2)
+                    .cbb(callback.cb3)
                     .getFunction())();    
                 expect(callback.cb2.calledImmediatelyBefore(callback.cb1)).to.be.true;
                 expect(callback.cb3.calledImmediatelyAfter(callback.cb1)).to.be.true;
             });
-            it('order: cbi, main, cbf with .cbf .cbi', function (){
+            it('order: cba, main, cbb with .cbb .cba', function (){
                 (checklogrun_returned_by_main
-                    .cbf(callback.cb3)
-                    .cbi(callback.cb2)
+                    .cbb(callback.cb3)
+                    .cba(callback.cb2)
                     .getFunction())();    
                 expect(callback.cb2.calledImmediatelyBefore(callback.cb1)).to.be.true;
                 expect(callback.cb3.calledImmediatelyAfter(callback.cb1)).to.be.true;
             });
-            it('cbi2 runs before cbi1 befor main with cbi2 cb3', function (){
-                it('order: cbi, main, cbf with .cbi .cbf', function (){
+            it('cba2 runs before cba1 befor main with cba2 cb3', function (){
+                it('order: cba, main, cbb with .cba .cbb', function (){
                     (checklogrun_returned_by_main
-                        .cbi(callback.cb2)
-                        .cbi(callback.cb3)
+                        .cba(callback.cb2)
+                        .cba(callback.cb3)
                         .getFunction())();    
                     expect(callback.cb2.calledImmediatelyBefore(callback.cb1)).to.be.true;
                     expect(callback.cb3.calledImmediatelyBefore(callback.cb2)).to.be.true;
                 });
             });
-            it('cbf2 runs after cbf1 after main', function (){
-                it('order: cbi, main, cbf with .cbi .cbf', function (){
+            it('cbb2 runs after cbb1 after main', function (){
+                it('order: cba, main, cbb with .cba .cbb', function (){
                     (checklogrun_returned_by_main
-                        .cbf(callback.cb2)
-                        .cbf(callback.cb3)
+                        .cbb(callback.cb2)
+                        .cbb(callback.cb3)
                         .getFunction())();    
                     expect(callback.cb2.calledImmediatelyAfter(callback.cb1)).to.be.true;
                     expect(callback.cb3.calledImmediatelyAfter(callback.cb2)).to.be.true;
@@ -101,34 +101,34 @@ describe('main - usecase', function (){
                     let function_with_checklog = returned_by_main_method.getFunction();
                     expect(function_with_checklog()).to.equal(value_returned);
                 });
-                context('with cbi setted', function(){
+                context('with cba setted', function(){
                     it('return value of main is right', function (){
                         let function_with_checklog = returned_by_main_method
-                                                        .cbi(callback.cb1)
+                                                        .cba(callback.cb1)
                                                         .getFunction();
                         expect(function_with_checklog()).to.equal(value_returned);
                     });
                 });
-                context('with cbf setted', function(){
+                context('with cbb setted', function(){
                     it('return value of main is right', function (){
                         let function_with_checklog = returned_by_main_method
-                                                        .cbf(callback.cb1)
+                                                        .cbb(callback.cb1)
                                                         .getFunction();
                         expect(function_with_checklog()).to.equal(value_returned);
                     });
                 });
-                context('with cbi and cbf setted', function(){
-                    it('return value of main is right with cbi cbf', function (){
+                context('with cba and cbb setted', function(){
+                    it('return value of main is right with cba cbb', function (){
                         let function_with_checklog = returned_by_main_method
-                                                        .cbi(callback.cb1)
-                                                        .cbf(callback.cb2)
+                                                        .cba(callback.cb1)
+                                                        .cbb(callback.cb2)
                                                         .getFunction();
                         expect(function_with_checklog()).to.equal(value_returned);
                     });
-                    it('return value of main is right with cbf cbi', function (){
+                    it('return value of main is right with cbb cba', function (){
                         let function_with_checklog = returned_by_main_method
-                                                        .cbf(callback.cb1)
-                                                        .cbi(callback.cb2)
+                                                        .cbb(callback.cb1)
+                                                        .cba(callback.cb2)
                                                         .getFunction();
                         expect(function_with_checklog()).to.equal(value_returned);
                     });
@@ -149,12 +149,12 @@ describe('main - usecase', function (){
                                                         .getFunction();
                     expect(function_with_checklogrun()).to.equal(value_modified);
                 });
-                context(`with cbi and cbf setted`, function(){
+                context(`with cba and cbb setted`, function(){
                     it(`return value of main is in according to cbr`, function (){
                         const function_with_checklogrun = returned_by_main_method
-                                                        .cbi(callback.cb2)
-                                                        .cbf(callback.cb3)
-                                                        .cbi(callback.cb4)
+                                                        .cba(callback.cb2)
+                                                        .cbb(callback.cb3)
+                                                        .cba(callback.cb4)
                                                         .cbr(cbr_callback)
                                                         .getFunction();
                         expect(function_with_checklogrun()).to.equal(value_modified);
@@ -179,7 +179,7 @@ describe('main - usecase', function (){
                     function_with_checklog(1,2,3);
                     expect(callback_main.calledOnceWithExactly(1,2,3)).to.be.true;
                 });
-                context('with cbi and cbf setted', function(){
+                context('with cba and cbb setted', function(){
                     DFT.methods_that_require_function_as_valid_input.forEach((method)=>{
                         it(`arguments are read by main with ${method} setted`, function (){
                             const function_with_checklog = returned_by_main_method
@@ -189,28 +189,28 @@ describe('main - usecase', function (){
                             expect(callback_main.calledOnceWithExactly(1,2,3)).to.be.true;
                         });
                     });
-                    it('arguments are read by main with cbi and cbf setted', function (){
+                    it('arguments are read by main with cba and cbb setted', function (){
                         const function_with_checklog = returned_by_main_method
-                                                            .cbi(callback.cb2)
-                                                            .cbf(callback.cb3)
+                                                            .cba(callback.cb2)
+                                                            .cbb(callback.cb3)
                                                             .getFunction();
                         function_with_checklog(1,2,3);
                         expect(callback_main.calledOnceWithExactly(1,2,3)).to.be.true;
                     });
                 });
             });
-            describe('arguments of cbi', function (){
-                it('argument of cbi are the same of main', function (){
+            describe('arguments of cba', function (){
+                it('argument of cba are the same of main', function (){
                     const function_with_checklog = returned_by_main_method
-                                                            .cbi(callback.cb2)
+                                                            .cba(callback.cb2)
                                                             .getFunction();
                     function_with_checklog(1,2,3);
                     expect(callback.cb2.calledOnceWithExactly(1,2,3)).to.be.true;
                 });
             });
-            describe('arguments of cbf and cbr', function (){
-                [DFT.methods_name.cbf, DFT.methods_name.cbr].forEach(method => {
-                    it('argument of cbi are the same of main plus the returned value', function (){
+            describe('arguments of cbb and cbr', function (){
+                [DFT.methods_name.cbb, DFT.methods_name.cbr].forEach(method => {
+                    it('argument of cba are the same of main plus the returned value', function (){
                         const function_with_checklog = returned_by_main_method
                                                                 [method](callback.cb2)
                                                                 .getFunction();
@@ -227,11 +227,11 @@ describe('main - usecase', function (){
                         let function_with_checklog = checklogrun_returned_by_main.getFunction();
                         expect(new function_with_checklog()).to.not.have.property(method);
                     });
-                    context(`when called cbi cbf`, function(){
+                    context(`when called cba cbb`, function(){
                         it(`the function with check log have not ${method} of checklogrun`, function (){
                             let function_with_checklog = checklogrun_returned_by_main
-                                .cbi(callback.cb2)
-                                .cbf(callback.cb3)
+                                .cba(callback.cb2)
+                                .cbb(callback.cb3)
                                 .getFunction();
                             expect(new function_with_checklog()).to.not.have.property(method);
                         });

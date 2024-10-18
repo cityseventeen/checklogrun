@@ -47,7 +47,7 @@ describe('main - how is made', function (){
         context('also other methods called', function(){
             it('.getFunction() returns a function', function (){
                 expect(checklogrun_presetted_fortest
-                    .cbi(DFT.valid_input_for_methods_of_checklogrun)
+                    .cba(DFT.valid_input_for_methods_of_checklogrun)
                     .getFunction()).to.be.a('function');
             });
 
