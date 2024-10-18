@@ -5,7 +5,8 @@ name: Publish to npm
 on:
   release:
     types: [created]  # Attiva il workflow quando viene creato un nuovo rilascio
-
+  workflow_dispatch:
+    
 jobs:
   test:
     runs-on: ubuntu-latest
