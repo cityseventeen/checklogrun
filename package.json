@@ -3,6 +3,10 @@
     "version": "0.2.3",
     "description": "The library promotes the separation of responsibilities, allowing the logic, valitadion and logging to be kept in distinct modules, organizing the code into separate files and reducing the complexity of the main funciton",
     "main": "src/main.js",
+    "keywords": ["check-logging, cleancode, assert, logging"],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cityseventeen/checklogrun.git"},
     "scripts": {
         "test": "mocha --exit",
         "test-commit": "npm run test && npm run git",
@@ -10,7 +14,7 @@
     },
     "type": "module",
     "author": "Raffaele Balsamo",
-    "license": "SEE LICENSE IN <LICENSE> FILE",
+    "license": "BSL-1.0",
     "devDependencies": {
         "@types/chai": "^5.0.0",
         "@types/mocha": "^10.0.8",
