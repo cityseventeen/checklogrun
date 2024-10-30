@@ -1,4 +1,4 @@
-import {expect, FFT, DFT, assert} from './commonimport_fortest.js'
+import {expect, FFT, DFT, assert, sinon} from './commonimport_fortest.js'
 
 import checklogrun from './main.js'
 
@@ -52,5 +52,40 @@ describe('main - how is made', function (){
             });
 
         }); 
+    });
+
+    describe('methods of function', function (){
+        let callback, checklogrun_returned_by_main;
+        beforeEach(function(){
+            callback={};
+            callback.cb1 = sinon.spy();
+            callback.cb2 = sinon.spy();
+            callback.cb3 = sinon.spy();
+            callback.cb4 = sinon.spy();
+
+            checklogrun_returned_by_main = checklogrun().main(callback.cb1);
+        });
+        afterEach(function(){
+            sinon.restore();
+        });
+        
+        describe('reference to method of checklogrun', function (){
+            DFT.methods_list.forEach(method => {
+                it(`the function with check log have not ${method} of checklogrun`, function (){
+                    let function_with_checklog = checklogrun_returned_by_main.getFunction();
+                    expect(new function_with_checklog()).to.not.have.property(method);
+                });
+                context(`when called cba cbb`, function(){
+                    it(`the function with check log have not ${method} of checklogrun`, function (){
+                        let function_with_checklog = checklogrun_returned_by_main
+                            .cba(callback.cb2)
+                            .cbb(callback.cb3)
+                            .getFunction();
+                        expect(new function_with_checklog()).to.not.have.property(method);
+                    });
+                });
+            });
+        });
+        
     });
 });

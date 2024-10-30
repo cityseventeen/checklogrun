@@ -216,27 +216,9 @@ describe('main - usecase', function (){
                 });
             });
         });
-        describe('check on this', function (){
-            describe('reference to method of checklogrun', function (){
-                DFT.methods_list.forEach(method => {
-                    it(`the function with check log have not ${method} of checklogrun`, function (){
-                        let function_with_checklog = checklogrun_returned_by_main.getFunction();
-                        expect(new function_with_checklog()).to.not.have.property(method);
-                    });
-                    context(`when called cba cbb`, function(){
-                        it(`the function with check log have not ${method} of checklogrun`, function (){
-                            let function_with_checklog = checklogrun_returned_by_main
-                                .cba(callback.cb2)
-                                .cbb(callback.cb3)
-                                .getFunction();
-                            expect(new function_with_checklog()).to.not.have.property(method);
-                        });
-                    });
-                });
-            });
+        
+        describe(`check on this`, function (){
             
         });
-
-
     });
 });
