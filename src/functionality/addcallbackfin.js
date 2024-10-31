@@ -2,20 +2,24 @@ import {assert, data, errors} from '../commonimport.js'
 
 function addcallbackfin(function_definition){
     assert.ok(typeof function_definition === 'function');
+    
+    const context_methods = this;
+    const context_this_of_user = this[data.property_symbol_for_context_assigned_by_user];
 
-    if(this[data.function_to_return_property_symbol] === undefined)
+    if(context_methods[data.function_to_return_property_symbol] === undefined)
         throw new errors.main_not_setted();
 
-    const actual_function = this[data.function_to_return_property_symbol];
-    this[data.function_to_return_property_symbol] = function(...args){
-        let value_to_return = actual_function.apply(null, args);
-        function_definition.call(null, value_to_return, ...args);
+    const actual_function = context_methods[data.function_to_return_property_symbol];
+    context_methods[data.function_to_return_property_symbol] = function(...args){
+        const this_context_by_bind_on_returned_by_getFunction = this;
+        let value_to_return = actual_function.apply(this_context_by_bind_on_returned_by_getFunction, args);
+        function_definition.call(this_context_by_bind_on_returned_by_getFunction, value_to_return, ...args);
 
         return value_to_return;
     };
 
 
-    return this;
+    return context_methods;
 }
 
 export default addcallbackfin

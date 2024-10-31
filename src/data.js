@@ -18,7 +18,8 @@ const data = {
         return list_name;
     },
     function_to_return_property_symbol: Symbol(),
-    value_returned_property: Symbol()
+    value_returned_property: Symbol(),
+    property_symbol_for_context_assigned_by_user: Symbol()
 };
 
 export default data;
