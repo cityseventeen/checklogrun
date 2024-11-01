@@ -4,6 +4,21 @@ import checklogrun from './main.js'
 
 
 describe('main - how is made', function (){
+    let callback, checklogrun_returned_by_main;
+    beforeEach(function(){
+        callback={};
+        callback.cb1 = sinon.spy();
+        callback.cb2 = sinon.spy();
+        callback.cb3 = sinon.spy();
+        callback.cb4 = sinon.spy();
+
+        checklogrun_returned_by_main = checklogrun().main(callback.cb1);
+    });
+    afterEach(function(){
+        sinon.restore();
+    });
+
+
     it('checklogrun is a function', function (){
         expect(checklogrun).to.be.a('function');
     });
@@ -54,21 +69,7 @@ describe('main - how is made', function (){
         }); 
     });
 
-    describe('methods of function', function (){
-        let callback, checklogrun_returned_by_main;
-        beforeEach(function(){
-            callback={};
-            callback.cb1 = sinon.spy();
-            callback.cb2 = sinon.spy();
-            callback.cb3 = sinon.spy();
-            callback.cb4 = sinon.spy();
-
-            checklogrun_returned_by_main = checklogrun().main(callback.cb1);
-        });
-        afterEach(function(){
-            sinon.restore();
-        });
-        
+    describe('methods of function', function (){   
         describe('reference to method of checklogrun', function (){
             DFT.methods_list.forEach(method => {
                 it(`the function with check log have not ${method} of checklogrun`, function (){
@@ -87,5 +88,64 @@ describe('main - how is made', function (){
             });
         });
         
+    });
+
+    describe(`check on this`, function (){
+        describe(`check on this via bind on checklogrun funcion`, function (){
+            let functionReturnedBygetFunction, checklogrunWithContext;
+            const context = {value: 3};
+            beforeEach('prepare function', function(){
+                checklogrunWithContext = checklogrun.bind(context);
+                functionReturnedBygetFunction = checklogrunWithContext()
+                    .main(callback.cb1)
+                    .cbr(callback.cb2)
+                    .cbb(callback.cb3)
+                    .cba(callback.cb4)
+                    .getFunction()
+
+            });
+            beforeEach('run function', function(){
+                functionReturnedBygetFunction();
+            });
+            
+            describe(`Each callback has not the this context assigned via bind`, function (){
+                [['cb1', 'main'], ['cb2', 'cbr'],['cb3', 'cbb'],['cb4', 'cba']].forEach(tupla => {
+                    it(`callback ${tupla[0]} for ${tupla[1]} has not the this context assigned via bind`, function (){
+                        let cb = tupla[0];
+                        expect(callback[cb].called).to.be.true;
+                        let callbackThis = callback[cb].thisValues[0];
+    
+                        expect(callbackThis).to.be.an('undefined');
+                    });
+                });
+            });
+        });
+        describe(`check on this via bind on function returned by getFunction()`, function (){
+            let functionReturnedBygetFunction;
+            const context = {value: 3};
+            beforeEach('prepare function', function(){
+                functionReturnedBygetFunction = checklogrun()
+                    .main(callback.cb1)
+                    .cbr(callback.cb2)
+                    .cbb(callback.cb3)
+                    .cba(callback.cb4)
+                    .getFunction()
+
+            });
+            beforeEach('run function', function(){
+                functionReturnedBygetFunction.call(context);
+            });
+            describe(`Each callback has the this context assigned via bind`, function (){
+                [['cb1', 'main'], ['cb2', 'cbr'],['cb3', 'cbb'],['cb4', 'cba']].forEach(tupla => {
+                    it(`callback ${tupla[0]} for ${tupla[1]} has the this context assigned via bind`, function (){
+                        let cb = tupla[0];
+                        expect(callback[cb].called).to.be.true;
+                        let callbackThis = callback[cb].thisValues[0];
+    
+                        expect(callbackThis).to.be.equal(context)
+                    });
+                });
+            });
+        });
     });
 });
