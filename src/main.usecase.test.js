@@ -161,9 +161,11 @@ describe('main - usecase', function (){
         describe('check on arguments', function (){
             let returned_by_main_method;
             const value_returned_by_main = 5;
-            let callback_main;
+            const value_returned_by_cbr = 8;
+            let callback_main, callback_cbr;
             beforeEach(function(){
                 callback_main = sinon.stub().returns(value_returned_by_main);
+                callback_cbr = sinon.stub().returns(value_returned_by_cbr)
                 returned_by_main_method = checklogrun().main(callback_main);
             });
             afterEach(function(){
@@ -213,6 +215,36 @@ describe('main - usecase', function (){
                         function_with_checklog(1,2,3);
                         expect(callback.cb2.calledOnceWithExactly(value_returned_by_main, 1,2,3)).to.be.true;
                     });
+                });
+            });
+            describe(`check callback arguments when main returned is modified by .cbr(callback)`, function (){
+                let function_with_checklog, value_input_for_clr;
+                beforeEach(function(){
+                    function_with_checklog = returned_by_main_method
+                                                    .cbr(callback_cbr)
+                                                    .cbb(callback.cb1)
+                                                    .cba(callback.cb2)
+                                                    .getFunction();
+                    value_input_for_clr = value_returned_by_main;
+                    function_with_checklog(value_returned_by_main);
+                });
+                it(`arg of main is the same of f_clr()`, function (){
+                    expect(callback_main.calledOnceWithExactly(value_input_for_clr)).to.be.true;
+                });
+                it(`returned value of main is the same of f_clr when main returned it`, function (){
+                    expect(callback_main.returned(value_input_for_clr)).to.be.true;
+                });
+                it(`arg of cbr callback is the same of value returned by main callback`, function (){
+                    expect(callback_cbr.calledOnceWithExactly(value_returned_by_main, value_input_for_clr)).to.be.true;
+                });
+                it(`value returned by the cbr callback is that set by the callback `, function (){
+                    expect(callback_cbr.returned(value_returned_by_cbr)).to.be.true;
+                });
+                it(`arg of cba callback is the same of value returned by cbr callback`, function (){
+                    expect(callback.cb2.calledOnceWithExactly(value_returned_by_cbr, value_input_for_clr)).to.be.true;
+                });
+                it(`arg of cba callback is not the value returned by main callback`, function (){
+                    expect(callback.cb2.calledOnceWithExactly(value_input_for_clr, value_input_for_clr)).to.be.false;
                 });
             });
         });
