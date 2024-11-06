@@ -2,8 +2,44 @@ import {strict as assert} from 'node:assert'
 
 import data from './data.js'
 
+class FFT{
+    static wait(ms){
+        return new Promise(resolve => {setTimeout(resolve, ms)});
+    }
+    static get prepareAsyncFunction(){
+        const number_of_istructions = 6;
+        const msmin = 10, msmax = 80;
 
-class FFT{}
+        const syncFunction = function(){let syncinstruction1 = 1; let syncinstruction2 = 2;};
+        const asyncFunction = async function(){let ms = FFT.random(msmin, msmax); await wait(ms)};
+
+        const primitive = new Map();
+
+        for(let i=1; i<=number_of_istructions; i++){
+            let choose_randomly_instruction = (()=>{let chose = FFT.random(1,2)-1;
+                return {
+                            instruction: [syncFunction, asyncFunction][chose],
+                            type: ['sync', 'async'][chose]
+                }})();
+            primitive.set(i+'', choose_randomly_instruction);
+        }
+
+        const asyncFunctionPrepared = async function(){
+            Array.from(primitive).forEach(async (instruction, type) => {
+                if(type === 'sync') instruction();
+                else await instruction();
+            });
+        };
+        
+        return asyncFunctionPrepared;
+    }
+    static random(min, max){
+        assert(typeof min === 'number' && min >=0);
+        assert(typeof max === 'number' && max > min);
+
+        return Math.floor(Math.random()*(max-min+1)+min);
+    }
+}
 
 class DFT{
     static get methods_list(){
