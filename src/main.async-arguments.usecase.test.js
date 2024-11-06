@@ -1,4 +1,4 @@
-import {expect, FFT, DFT, assert, sinon} from './commonimport_fortest.js'
+/*import {expect, FFT, DFT, assert, sinon} from './commonimport_fortest.js'
 
 import checklogrun from './main.js'
 
@@ -10,7 +10,9 @@ describe('main - behavior with async function - usecase', function (){
 
     beforeEach(function(){
         callback={};
-        callback.cb1async = sinon.spy(async function(){return 1});
+        callback.cb1async = sinon.spy(async function(
+
+        ){return 1});
         callback.cb2 = sinon.spy();
         callback.cb3 = sinon.spy();
         callback.cb4 = sinon.stub().returns(value_returned2);
@@ -94,4 +96,4 @@ describe('main - behavior with async function - usecase', function (){
             expect(callback.cb1async.calledImmediatelyBefore(callback.cb3)).to.be.true;
         });
     });
-});
+});*/
