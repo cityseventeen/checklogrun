@@ -17,10 +17,10 @@ const data = {
         this.functionality_list.enums.forEach(enum_f => {list_name[enum_f.key] = enum_f.key});
         return list_name;
     },
-    function_to_return_property_symbol: Symbol(),
-    value_returned_property: Symbol(),
-    property_symbol_for_context_assigned_by_user: Symbol(),
-    property_symbol_for_sync_async_choosed: Symbol(),
+    function_to_return_property_symbol: Symbol('functiontoreturn'),
+    value_returned_property: Symbol('valuereturned'),
+    property_symbol_for_context_assigned_by_user: Symbol('contextbyuser'),
+    property_symbol_for_sync_async_choosed: Symbol('executionmode'),
     execution_mode: new Enum(['sync', 'async']) 
 };
 

@@ -1,4 +1,4 @@
-import {assert, data, errors} from '../commonimport.js'
+import {assert, data, errors, getSyncAsyncFunction} from '../commonimport.js'
 
 function addcallbackinit(function_definition){
     assert.ok(typeof function_definition === 'function');
@@ -10,13 +10,26 @@ function addcallbackinit(function_definition){
         throw new errors.main_not_setted();
 
     const actual_function = context_methods[data.function_to_return_property_symbol];
-    context_methods[data.function_to_return_property_symbol] = function(...args){
-        const this_context_by_bind_on_returned_by_getFunction = this;
-        function_definition.apply(this_context_by_bind_on_returned_by_getFunction, args);
-        let value_to_return = actual_function.apply(this_context_by_bind_on_returned_by_getFunction, args);
 
-        return value_to_return;
-    };
+    const execution_mode = context_methods[data.property_symbol_for_sync_async_choosed];
+
+    context_methods[data.function_to_return_property_symbol] = getSyncAsyncFunction(
+        function(...args){
+            const this_context_by_bind_on_returned_by_getFunction = this;
+            function_definition.apply(this_context_by_bind_on_returned_by_getFunction, args);
+            let value_to_return = actual_function.apply(this_context_by_bind_on_returned_by_getFunction, args);
+
+            return value_to_return;
+        },
+        async function(...args){
+            const this_context_by_bind_on_returned_by_getFunction = this;
+            await function_definition.apply(this_context_by_bind_on_returned_by_getFunction, args);
+            let value_to_return = await actual_function.apply(this_context_by_bind_on_returned_by_getFunction, args);
+
+            return value_to_return;
+        },
+        execution_mode
+    );
 
 
     return context_methods;

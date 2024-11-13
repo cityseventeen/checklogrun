@@ -1,4 +1,4 @@
-import {assert, data, errors} from '../commonimport.js'
+import {assert, data, errors, getSyncAsyncFunction} from '../commonimport.js'
 
 function getFunction(undefined){
     if(this[data.function_to_return_property_symbol] === undefined)
@@ -9,9 +9,19 @@ function getFunction(undefined){
 
     const actual_function = context_methods[data.function_to_return_property_symbol];
 
-    return function(...args){
-        const context_this_by_user_for_returned_function = this;
-        return actual_function.apply(context_this_by_user_for_returned_function, args);};
+    const execution_mode = context_methods[data.property_symbol_for_sync_async_choosed];
+
+    const functionToReturn = getSyncAsyncFunction(
+        function(...args){
+            const context_this_by_user_for_returned_function = this;
+            return actual_function.apply(context_this_by_user_for_returned_function, args);},
+        async function(...args){
+            const context_this_by_user_for_returned_function = this;
+            return await actual_function.apply(context_this_by_user_for_returned_function, args);},
+        execution_mode
+    );
+
+    return functionToReturn;
 }
 
 export default getFunction
