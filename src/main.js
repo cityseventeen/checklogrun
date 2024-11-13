@@ -30,13 +30,13 @@ function storeExecutionMode(context_methods, execution_mode){
     context_methods[data.property_symbol_for_sync_async_choosed] = execution_mode;
 }
 
-function checklogrunMethodsSync(){
+function checklogrunSync(){
     const execution_mode = data.execution_mode.sync;
     const context_assigned_by_user = this;
     return checklogrunMethodsBuilder.call(context_assigned_by_user, execution_mode);
 }
 
-function checklogrunMethodsAsync(){
+function checklogrunAsync(){
     const execution_mode = data.execution_mode.async;
     const context_assigned_by_user = this;
     return checklogrunMethodsBuilder.call(context_assigned_by_user, execution_mode);
@@ -45,6 +45,6 @@ function checklogrunMethodsAsync(){
 
 
 
-export default checklogrunMethodsSync;
-export {checklogrunMethodsSync, checklogrunMethodsAsync as checklogrunMethods};
+export default checklogrunAsync;
+export {checklogrunSync, checklogrunAsync as checklogrun};
 

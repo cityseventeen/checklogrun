@@ -1,6 +1,6 @@
 import {expect, FFT, DFT, assert, sinon} from './commonimport_fortest.js'
 
-import checklogrun from './main.js'
+import {checklogrunSync} from './main.js'
 
 
 describe('main - behavior with promise - usecase', function (){
@@ -28,7 +28,7 @@ describe('main - behavior with promise - usecase', function (){
 
     describe(`callback invocation order`, function (){
         it(`cba(callback): callback is async, and is run after cbb`, function (){
-            const func_clr = checklogrun()
+            const func_clr = checklogrunSync()
                 .main(callback.cb1)
                 .cbb(callback.cb2)
                 .cba(callback.cb5promise)
@@ -43,7 +43,7 @@ describe('main - behavior with promise - usecase', function (){
         });
 
         it(`cbb(callback): callback is async, and is run before cba`, function (){
-            const func_clr = checklogrun()
+            const func_clr = checklogrunSync()
                 .main(callback.cb1)
                 .cbb(callback.cb5promise)
                 .cba(callback.cb2)
@@ -57,7 +57,7 @@ describe('main - behavior with promise - usecase', function (){
         });
 
         it(`cbb(callback): callback is async, and is run before main`, function (){
-            const func_clr = checklogrun()
+            const func_clr = checklogrunSync()
                 .main(callback.cb1)
                 .cbb(callback.cb5promise)
                 .cba(callback.cb2)
@@ -71,7 +71,7 @@ describe('main - behavior with promise - usecase', function (){
         });
 
         it(`cba(callback): callback is async, and is run after main`, function (){
-            const func_clr = checklogrun()
+            const func_clr = checklogrunSync()
                 .main(callback.cb1)
                 .cbb(callback.cb2)
                 .cba(callback.cb5promise)
@@ -85,7 +85,7 @@ describe('main - behavior with promise - usecase', function (){
         });
 
         it(`main(callback): callback is async, and is run after cbb and before cba`, function (){
-            const func_clr = checklogrun()
+            const func_clr = checklogrunSync()
                 .main(callback.cb5promise)
                 .cbb(callback.cb1)
                 .cba(callback.cb2)
@@ -101,7 +101,7 @@ describe('main - behavior with promise - usecase', function (){
     });
     describe(`value returned`, function (){
         it(`main(callback): callback return promise, and callback of cba get its value as promise`, function (){
-            const func_clr = checklogrun()
+            const func_clr = checklogrunSync()
                 .main(callback.cb5promise)
                 .cbb(callback.cb1)
                 .cba(callback.cb2)
@@ -117,7 +117,7 @@ describe('main - behavior with promise - usecase', function (){
         });
         context(`cbr(callback): callback does not return a promise (not async) and the value returned by main is promise`, function(){
             beforeEach(function(){
-                const func_clr = checklogrun()
+                const func_clr = checklogrunSync()
                     .main(callback.cb5promise)
                     .cbr(callback.cb7cbrorcba)
                     .cbb(callback.cb1)
@@ -153,7 +153,7 @@ describe('main - behavior with promise - usecase', function (){
         });
         context(`cbr(callback): callback does not return a promise (not async) and the value returned by main is not a promise`, function(){
             beforeEach(function(){
-                const func_clr = checklogrun()
+                const func_clr = checklogrunSync()
                     .main(callback.cb4returnrealvalue)
                     .cbr(callback.cb7cbrorcba)
                     .cbb(callback.cb1)
@@ -189,7 +189,7 @@ describe('main - behavior with promise - usecase', function (){
         });
         context(`cbr(callback): callback returned promise and the value returned by main is not a promise`, function(){
             beforeEach(function(){
-                const func_clr = checklogrun()
+                const func_clr = checklogrunSync()
                     .main(callback.cb4returnrealvalue)
                     .cbr(callback.cb8promisecbrorcba)
                     .cbb(callback.cb1)
@@ -225,7 +225,7 @@ describe('main - behavior with promise - usecase', function (){
         });
         context(`cbr(callback): callback returns a promise and the value returned by main is a promise`, function(){
             beforeEach(function(){
-                const func_clr = checklogrun()
+                const func_clr = checklogrunSync()
                     .main(callback.cb5promise)
                     .cbr(callback.cb8promisecbrorcba)
                     .cbb(callback.cb1)

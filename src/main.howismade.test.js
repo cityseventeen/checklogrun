@@ -1,6 +1,6 @@
 import {expect, FFT, DFT, assert, sinon} from './commonimport_fortest.js'
 
-import checklogrun from './main.js'
+import {checklogrunSync} from './main.js'
 
 
 describe('main - how is made', function (){
@@ -12,7 +12,7 @@ describe('main - how is made', function (){
         callback.cb3 = sinon.spy();
         callback.cb4 = sinon.spy();
 
-        checklogrun_returned_by_main = checklogrun().main(callback.cb1);
+        checklogrun_returned_by_main = checklogrunSync().main(callback.cb1);
     });
     afterEach(function(){
         sinon.restore();
@@ -20,12 +20,12 @@ describe('main - how is made', function (){
 
 
     it('checklogrun is a function', function (){
-        expect(checklogrun).to.be.a('function');
+        expect(checklogrunSync).to.be.a('function');
     });
     describe('checklogrun has all foreseen methods', function (){
         DFT.methods_list.forEach(method_name => {
             it(`checklogrun(valid input) has  ${method_name} method that is a function`, function (){
-                expect(checklogrun(DFT.valid_input_for_checklogrun)).has.property(method_name).that.is.a('function');
+                expect(checklogrunSync(DFT.valid_input_for_checklogrun)).has.property(method_name).that.is.a('function');
             });
         });
     });
@@ -36,7 +36,7 @@ describe('main - how is made', function (){
                 value_returned_by_checklogrun_calledmain = (function preset_main(callback){
                     assert.isOk(typeof callback === 'function');
 
-                    let value_returned_by_checklogrun = checklogrun(DFT.valid_input_for_checklogrun);
+                    let value_returned_by_checklogrun = checklogrunSync(DFT.valid_input_for_checklogrun);
                     return value_returned_by_checklogrun.main(callback);
                 })(DFT.valid_input_for_methods_of_checklogrun);
             });
@@ -49,7 +49,7 @@ describe('main - how is made', function (){
     describe('getFunction', function (){
         let checklogrun_presetted_fortest;
         beforeEach(function(){
-            checklogrun_presetted_fortest = checklogrun(DFT.valid_input_for_checklogrun)
+            checklogrun_presetted_fortest = checklogrunSync(DFT.valid_input_for_checklogrun)
                 .main(DFT.valid_input_for_methods_of_checklogrun);
 
         });
@@ -95,7 +95,7 @@ describe('main - how is made', function (){
             let functionReturnedBygetFunction, checklogrunWithContext;
             const context = {value: 3};
             beforeEach('prepare function', function(){
-                checklogrunWithContext = checklogrun.bind(context);
+                checklogrunWithContext = checklogrunSync.bind(context);
                 functionReturnedBygetFunction = checklogrunWithContext()
                     .main(callback.cb1)
                     .cbr(callback.cb2)
@@ -124,7 +124,7 @@ describe('main - how is made', function (){
             let functionReturnedBygetFunction;
             const context = {value: 3};
             beforeEach('prepare function', function(){
-                functionReturnedBygetFunction = checklogrun()
+                functionReturnedBygetFunction = checklogrunSync()
                     .main(callback.cb1)
                     .cbr(callback.cb2)
                     .cbb(callback.cb3)

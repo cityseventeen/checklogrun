@@ -1,6 +1,6 @@
 import {expect, FFT, DFT, assert, sinon} from './commonimport_fortest.js'
 
-import checklogrun from './main.js'
+import {checklogrunSync} from './main.js'
 
 
 describe('main - usecase', function (){
@@ -12,7 +12,7 @@ describe('main - usecase', function (){
         callback.cb3 = sinon.spy();
         callback.cb4 = sinon.spy();
 
-        checklogrun_returned_by_main = checklogrun().main(callback.cb1);
+        checklogrun_returned_by_main = checklogrunSync().main(callback.cb1);
     });
     afterEach(function(){
         sinon.restore();
@@ -91,7 +91,7 @@ describe('main - usecase', function (){
                 let returned_by_main_method;
                 beforeEach(function(){
                     const function_main = ()=>{return value_returned};
-                    returned_by_main_method = checklogrun().main(function_main);
+                    returned_by_main_method = checklogrunSync().main(function_main);
                 });
                 it('return value of main is right', function (){
                     let function_with_checklog = returned_by_main_method.getFunction();
@@ -137,7 +137,7 @@ describe('main - usecase', function (){
                 let returned_by_main_method;
                 beforeEach(function(){
                     const function_main = ()=>{return value_returned};
-                    returned_by_main_method = checklogrun().main(function_main);
+                    returned_by_main_method = checklogrunSync().main(function_main);
                 });
                 it(`return value of main is in according to cbr`, function (){
                     const function_with_checklogrun = returned_by_main_method
@@ -166,7 +166,7 @@ describe('main - usecase', function (){
             beforeEach(function(){
                 callback_main = sinon.stub().returns(value_returned_by_main);
                 callback_cbr = sinon.stub().returns(value_returned_by_cbr)
-                returned_by_main_method = checklogrun().main(callback_main);
+                returned_by_main_method = checklogrunSync().main(callback_main);
             });
             afterEach(function(){
                 sinon.restore();

@@ -1,6 +1,6 @@
 import {expect, FFT, DFT, assert, sinon} from './commonimport_fortest.js'
 
-import checklogrun from './main.js'
+import {checklogrunSync} from './main.js'
 
 
 describe('main - error', function (){
@@ -8,7 +8,7 @@ describe('main - error', function (){
         let callback_as_valid_input, checklogrun_applied_to_function;
         beforeEach(function(){
             callback_as_valid_input = sinon.spy();
-            checklogrun_applied_to_function = checklogrun();
+            checklogrun_applied_to_function = checklogrunSync();
         });
         afterEach(function(){
             sinon.restore();
@@ -26,7 +26,7 @@ describe('main - error', function (){
         describe('calling main', function (){
             it('not valid input for main method throw error', function (){
                 DFT.not_valid_input_for_methods.forEach(not_valid_input => {
-                    expect(()=>{checklogrun().main(not_valid_input)}).to.throw()});
+                    expect(()=>{checklogrunSync().main(not_valid_input)}).to.throw()});
             });
         });
         describe('not valid input for methods except for main', function (){
@@ -34,7 +34,7 @@ describe('main - error', function (){
             let callback_as_valid_input;
             beforeEach(function(){
                 callback_as_valid_input = sinon.spy();
-                returned_after_main_called = checklogrun().main(callback_as_valid_input);
+                returned_after_main_called = checklogrunSync().main(callback_as_valid_input);
             });
             afterEach(function(){
                 sinon.restore();
