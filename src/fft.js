@@ -6,7 +6,7 @@ class FFT{
     static wait(ms){
         return new Promise(resolve => {setTimeout(resolve, ms)});
     }
-    static prepareAsyncFunction(name, pipe_end_function_run){
+    static prepareAsyncFunction(name, pipe_end_function_run, value_returned){
         assert.ok(typeof name === 'string');
         assert.ok(Array.isArray(pipe_end_function_run));
 
@@ -35,7 +35,7 @@ class FFT{
             }
 
             pipe_end_function_run.push({name});
-            return 'value';
+            return value_returned;
         };
         
         return asyncFunctionPrepared;

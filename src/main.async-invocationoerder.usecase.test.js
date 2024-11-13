@@ -4,7 +4,7 @@ import checklogrun from './main.js'
 
 
 describe('main - behavior with async function - usecase', function (){
-    let callback, checklogrun_returned_by_main;
+    let callback;
     const value_returned = 1;
     const value_returned2 = 2;
     let pipe_endfunction_run;
