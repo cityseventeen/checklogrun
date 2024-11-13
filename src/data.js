@@ -19,7 +19,9 @@ const data = {
     },
     function_to_return_property_symbol: Symbol(),
     value_returned_property: Symbol(),
-    property_symbol_for_context_assigned_by_user: Symbol()
+    property_symbol_for_context_assigned_by_user: Symbol(),
+    property_symbol_for_sync_async_choosed: Symbol(),
+    execution_mode: new Enum(['sync', 'async']) 
 };
 
 export default data;

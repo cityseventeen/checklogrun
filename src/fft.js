@@ -6,7 +6,10 @@ class FFT{
     static wait(ms){
         return new Promise(resolve => {setTimeout(resolve, ms)});
     }
-    static get prepareAsyncFunction(){
+    static prepareAsyncFunction(name, pipe_end_function_run){
+        assert.ok(typeof name === 'string');
+        assert.ok(Array.isArray(pipe_end_function_run));
+
         const number_of_istructions = 6;
         const msmin = 10, msmax = 80;
 
@@ -25,10 +28,14 @@ class FFT{
         }
 
         const asyncFunctionPrepared = async function(){
-            Array.from(primitive).forEach(async (instruction, type) => {
+            
+            for(const [instruction, type] of primitive.entries()){
                 if(type === 'sync') instruction();
                 else await instruction();
-            });
+            }
+
+            pipe_end_function_run.push({name});
+            return 'value';
         };
         
         return asyncFunctionPrepared;
@@ -38,6 +45,15 @@ class FFT{
         assert(typeof max === 'number' && max > min);
 
         return Math.floor(Math.random()*(max-min+1)+min);
+    }
+    static checkSequence(list, ...sequences){
+        assert.ok(Array.isArray(list));
+        let checkok = true;
+        list.forEach((el, i) => {
+            checkok = chekok && (el.name === sequences[i]);
+        });
+
+        return checkok;
     }
 }
 
