@@ -14,22 +14,22 @@ class FFT{
         const msmin = 10, msmax = 80;
 
         const syncFunction = function(){let syncinstruction1 = 1; let syncinstruction2 = 2;};
-        const asyncFunction = async function(){let ms = FFT.random(msmin, msmax); await wait(ms)};
+        const asyncFunction = async function(){let ms = FFT.random(msmin, msmax); await FFT.wait(ms)};
 
         const primitive = new Map();
 
         for(let i=1; i<=number_of_istructions; i++){
-            let choose_randomly_instruction = (()=>{let chose = FFT.random(1,2)-1;
+            let choosed_randomly_instruction = (()=>{let chose = FFT.random(1,2)-1;
                 return {
                             instruction: [syncFunction, asyncFunction][chose],
                             type: ['sync', 'async'][chose]
                 }})();
-            primitive.set(i+'', choose_randomly_instruction);
+            primitive.set(i+'', choosed_randomly_instruction);
         }
 
         const asyncFunctionPrepared = async function(){
-            
-            for(const [instruction, type] of primitive.entries()){
+            for(const [, value] of primitive){
+                const {instruction, type} = value;
                 if(type === 'sync') instruction();
                 else await instruction();
             }

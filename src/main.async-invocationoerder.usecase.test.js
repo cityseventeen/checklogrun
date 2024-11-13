@@ -1,7 +1,4 @@
-// fare prima refactoring getFunction in getFunctionSync per gli altri test
-// no! deve essere fatto per checklogrunSync perché devo modificare il contesto, e decidere per ogni funzionalità se mettere la funz async o sync
-
-/*import {expect, FFT, DFT, assert, sinon} from './commonimport_fortest.js'
+import {expect, FFT, DFT, assert, sinon} from './commonimport_fortest.js'
 
 import checklogrun from './main.js'
 
@@ -24,12 +21,12 @@ describe('main - behavior with async function - usecase', function (){
     afterEach(function(){
         sinon.restore();
     });
-    describe(`returned value by func_clr from getFunctionSync() when a callback is async`, function (){
+    describe(`returned value by func_clr from getFunction() when a callback is async`, function (){
         const cbasync = async function(){};
         const cbsync = function(){};
         [
-            ['cb async for main', checklogrun().main(cbasync).cbb(cbsync).cba(cbsync).getFunctionSync()],
-            ['cb async for cbr', checklogrun().main(cbsync).cbr(cbasync).cbb(cbsync).cba(cbsync).getFunctionSync()]
+            ['cb async for main', checklogrun().main(cbasync).cbb(cbsync).cba(cbsync).getFunction()],
+            ['cb async for cbr', checklogrun().main(cbsync).cbr(cbasync).cbb(cbsync).cba(cbsync).getFunction()]
         ].forEach(([where, func_clr]) => {
             it(`value returned by func_clr is a promise when a ${where}`, function (){
                 expect(func_clr()).to.be.an.instanceof(Promise);
@@ -37,11 +34,11 @@ describe('main - behavior with async function - usecase', function (){
         });
 
         [
-            ['cb async for cbb', checklogrun().main(cbsync).cbr(cbsync).cbb(cbasync).cba(cbsync).getFunctionSync()],
-            ['cb async for cba', checklogrun().main(cbsync).cbr(cbsync).cbb(cbsync).cba(cbasync).getFunctionSync()]
+            ['cb async for cbb', checklogrun().main(cbsync).cbr(cbsync).cbb(cbasync).cba(cbsync).getFunction()],
+            ['cb async for cba', checklogrun().main(cbsync).cbr(cbsync).cbb(cbsync).cba(cbasync).getFunction()]
         ].forEach(([where, func_clr]) => {
-            it(`value returned by func_clr is not a promise when a ${where}`, function (){
-                expect(func_clr()).to.not.be.an.instanceof(Promise);
+            it(`value returned by func_clr is a promise when a ${where}`, function (){
+                expect(func_clr()).to.be.an.instanceof(Promise);
             });
         });
     });
@@ -50,8 +47,8 @@ describe('main - behavior with async function - usecase', function (){
         const cbasync = async function(){};
         const cbsync = function(){};
         [
-            ['cb async for main', checklogrun().main(cbasync).cbb(cbsync).cba(cbsync).getFunctionSync()],
-            ['cb async for cbr', checklogrun().main(cbsync).cbr(cbasync).cbb(cbsync).cba(cbsync).getFunctionSync()]
+            ['cb async for main', checklogrun().main(cbasync).cbb(cbsync).cba(cbsync).getFunction()],
+            ['cb async for cbr', checklogrun().main(cbsync).cbr(cbasync).cbb(cbsync).cba(cbsync).getFunction()]
         ].forEach(([where, func_clr]) => {
             it(`value returned by func_clr is a promise when a ${where}`, function (){
                 expect(func_clr()).to.be.an.instanceof(Promise);
@@ -59,8 +56,8 @@ describe('main - behavior with async function - usecase', function (){
         });
 
         [
-            ['cb async for cbb', checklogrun().main(cbsync).cbr(cbsync).cbb(cbasync).cba(cbsync).getFunctionSync()],
-            ['cb async for cba', checklogrun().main(cbsync).cbr(cbsync).cbb(cbsync).cba(cbasync).getFunctionSync()]
+            ['cb async for cbb', checklogrun().main(cbsync).cbr(cbsync).cbb(cbasync).cba(cbsync).getFunction()],
+            ['cb async for cba', checklogrun().main(cbsync).cbr(cbsync).cbb(cbsync).cba(cbasync).getFunction()]
         ].forEach(([where, func_clr]) => {
             it(`value returned by func_clr is a promise when a ${where}`, function (){
                 expect(func_clr()).to.be.an.instanceof(Promise);
@@ -80,7 +77,7 @@ describe('main - behavior with async function - usecase', function (){
                 .cbb(callback.cb2)
                 .cba(callback.cb1async)
                 .getFunction();
-            func_clr();
+            await func_clr();
 
             [callback.cb1async, callback.cb2, callback.cb3].forEach(cb => {
                 expect(cb.calledOnce).to.be.true;
@@ -89,13 +86,13 @@ describe('main - behavior with async function - usecase', function (){
             expect(callback.cb1async.calledAfter(callback.cb2)).to.be.true;
         });
 
-        it(`cbb(callback): callback is async, and is run before cba`, function (){
+        it(`cbb(callback): callback is async, and it is run before cba`, async function (){
             const func_clr = checklogrun()
                 .main(callback.cb3)
                 .cbb(callback.cb1async)
                 .cba(callback.cb2)
                 .getFunction();
-            func_clr();
+            await func_clr();
 
             [callback.cb1async, callback.cb2, callback.cb3].forEach(cb => {
                 expect(cb.calledOnce).to.be.true;
@@ -103,13 +100,13 @@ describe('main - behavior with async function - usecase', function (){
             expect(callback.cb1async.calledBefore(callback.cb2)).to.be.true;
         });
 
-        it(`cbb(callback): callback is async, and is run before main`, function (){
+        it(`cbb(callback): callback is async, and it is run before main`, async function (){
             const func_clr = checklogrun()
                 .main(callback.cb3)
                 .cbb(callback.cb1async)
                 .cba(callback.cb2)
                 .getFunction();
-            func_clr();
+            await func_clr();
 
             [callback.cb1async, callback.cb2, callback.cb3].forEach(cb => {
                 expect(cb.calledOnce).to.be.true;
@@ -117,13 +114,13 @@ describe('main - behavior with async function - usecase', function (){
             expect(callback.cb1async.calledImmediatelyBefore(callback.cb3)).to.be.true;
         });
 
-        it(`cba(callback): callback is async, and is run after main`, function (){
+        it(`cba(callback): callback it is async, and is run after main`, async function (){
             const func_clr = checklogrun()
                 .main(callback.cb3)
                 .cbb(callback.cb2)
                 .cba(callback.cb1async)
                 .getFunction();
-            func_clr();
+            await func_clr();
 
             [callback.cb1async, callback.cb2, callback.cb3].forEach(cb => {
                 expect(cb.calledOnce).to.be.true;
@@ -132,13 +129,13 @@ describe('main - behavior with async function - usecase', function (){
             expect(callback.cb1async.calledImmediatelyAfter(callback.cb3)).to.be.true;
         });
 
-        it(`main(callback): callback is async, and is run after cbb and before cba`, function (){
+        it(`main(callback): callback it is async, and is run after cbb and before cba`, async function (){
             const func_clr = checklogrun()
                 .main(callback.cb1async)
                 .cbb(callback.cb2)
                 .cba(callback.cb3)
                 .getFunction();
-            func_clr();
+            await func_clr();
 
             [callback.cb1async, callback.cb2, callback.cb3].forEach(cb => {
                 expect(cb.calledOnce).to.be.true;
@@ -147,4 +144,4 @@ describe('main - behavior with async function - usecase', function (){
             expect(callback.cb1async.calledImmediatelyBefore(callback.cb3)).to.be.true;
         });
     });
-});*/
+});
